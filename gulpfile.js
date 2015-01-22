@@ -2,7 +2,6 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   jshint = require('gulp-jshint'),
   concat = require('gulp-concat'),
-  uglify = require('gulp-uglify'),
   rename = require('gulp-rename');
 
 gulp.task('lint', function() {
