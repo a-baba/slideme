@@ -1,19 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  var checkIfSlideMe = document.querySelectorAll('[data-slidemejs]')[0];
+  slideMeContainer = document.querySelectorAll('[data-slidemejs]')[0];
 
-  if (checkIfSlideMe !== undefined && checkIfSlideMe.getAttribute('data-slidemejs') !== '') {
+  slideMe.addPreloader();
 
-    slideMe.loadJson(checkIfSlideMe.getAttribute('data-slidemejs'));
+  if (slideMeContainer !== undefined && slideMeContainer.getAttribute('data-slidemejs') !== '') {
+
+    slideMe.loadJson(slideMeContainer.getAttribute('data-slidemejs'));
 
   }
 
-
-  slideMe.loadAssets('//vjs.zencdn.net/4.11.2/video.js', 'script', function(){
-    slideMe.createDOM();
-  });
-  slideMe.loadAssets('//d3gr29hczmiozh.cloudfront.net/slidemecss.min.css', 'css');
-  slideMe.loadAssets('//d3gr29hczmiozh.cloudfront.net/video-js.min.css', 'css');
-
-
+  slideMe.loadAssets('../build/slidemecss.min.css', 'css');
+  
 });

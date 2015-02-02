@@ -1,5 +1,5 @@
 var slideMe = slideMe || {};
-var slideMeContainer = document.querySelectorAll('[data-slidemejs]')[0];
+var slideMeContainer;
 var getHead = document.getElementsByTagName('head')[0];
 var isMobile = navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/Android/i);
 var thisVideoPlayer;

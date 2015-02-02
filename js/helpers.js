@@ -2,6 +2,7 @@ slideMe.errorThat = function (thisError, thisContainer) {
   var errorDiv = 'Player error:<br>' + thisError + '';
   thisContainer.setAttribute('class', 'slideme-error');
   thisContainer.innerHTML = errorDiv;
+  slideMe = null;
 };
 
 

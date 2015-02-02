@@ -1,29 +1,37 @@
 slideMe.createDOM = function () {
 
   isVideoSlide = slideMe.data.videoslides !== undefined;
-  haveSource = slideMe.data.videosources !== undefined;
+  haveSource = slideMe.data.videosourcesmobile !== undefined || slideMe.data.videosources !== undefined;
 
   // create video dom
 
     var createVideoPlayer = document.createElement('div');
     createVideoPlayer.setAttribute('id', 'slideme-wrapper');   
 
-    var videoPlayerLayout;
-
     if (haveSource) {
 
-      videoPlayerLayout = '<video id="videojs" controls></video>';
+      slideMe.thisVideoPlayer = document.createElement('video');
+
+      var vW = slideMeContainer.offsetWidth;
+      var vH;
+      if (slideMe.data.videoslides === undefined) {
+        vH = vW / 1.78;
+      } else {
+        vW = vW / 2;
+        vH = vW / 1.78;
+      }
+      
+      slideMe.addAttributes(slideMe.thisVideoPlayer, {'id': 'videojs', 'controls': '', 'width': vW, 'height': vH});
+
       var videoSources;
 
-      if (slideMe.data.videosourcesmobile !== undefined && isMobile !== null) {
+      if (isMobile !== null) {
         videoSources = slideMe.data.videosourcesmobile;
       } else {
         videoSources = slideMe.data.videosources;
       }
     
-      createVideoPlayer.innerHTML = videoPlayerLayout;
-      slideMeContainer.appendChild(createVideoPlayer);
-      thisVideoPlayer = document.getElementById('videojs');
+      slideMeContainer.appendChild(slideMe.thisVideoPlayer);
 
       for (var value in videoSources) {
         if (videoSources.hasOwnProperty(value)) {
@@ -32,7 +40,7 @@ slideMe.createDOM = function () {
             "src": videoSources[value],
             "type": value
           });
-          thisVideoPlayer.appendChild(createVideoSource);
+          slideMe.thisVideoPlayer.appendChild(createVideoSource);
         }
       }
       
@@ -48,14 +56,17 @@ slideMe.createDOM = function () {
             'label' : slideMe.data.subtitles[i].label
           });          
 
-          if(slideMe.data.subtitles[i].default === 'true') {
+          if (slideMe.data.subtitles[i].default === 'true') {
             createSubtitleNode.setAttribute('default', '');
           }
 
-          thisVideoPlayer.appendChild(createSubtitleNode);
+          slideMe.thisVideoPlayer.appendChild(createSubtitleNode);
+
         }
 
       }
+
+      slideMe.fireVideJs();
 
     }
 
