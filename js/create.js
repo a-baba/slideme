@@ -12,16 +12,8 @@ slideMe.createDOM = function () {
 
       slideMe.thisVideoPlayer = document.createElement('video');
 
-      var vW = slideMeContainer.offsetWidth;
-      var vH;
-      if (slideMe.data.videoslides === undefined) {
-        vH = vW / 1.78;
-      } else {
-        vW = vW / 2;
-        vH = vW / 1.78;
-      }
       
-      slideMe.addAttributes(slideMe.thisVideoPlayer, {'id': 'videojs', 'controls': '', 'width': vW, 'height': vH});
+      slideMe.addAttributes(slideMe.thisVideoPlayer, {'id': 'videojs', 'controls': ''});
 
       var videoSources;
 

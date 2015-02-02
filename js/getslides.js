@@ -31,6 +31,4 @@ slideMe.getSlides = function () {
 
   }
 
-  slideMe.setSize();
-
 };

@@ -1,7 +1,5 @@
 slideMe.fireVideJs = function () {
 
-  //player source
-
 
   // player settings
 
@@ -55,8 +53,9 @@ slideMe.fireVideJs = function () {
 
   thisPlayer.ready(function() {
 
-    thisPlayer = this;
-    thisPlayerEl = document.getElementsByTagName('video')[0];
+    slideMe.thisPlayer = this;
+
+    slideMe.setSize();
 
     console.log('player created');
 
@@ -77,72 +76,72 @@ slideMe.fireVideJs = function () {
 
     // }
 
-    if (slideMe.data.videosources && slideMe.data.videosourcesmobile !== undefined) {
+    // if (slideMe.data.videosources && slideMe.data.videosourcesmobile !== undefined) {
 
-      var createQualityNode = document.createElement('div');
-      createQualityNode.setAttribute('id', 'slideme-quality');
-      var thisTypeUrl = thisPlayer.src();
-      var findThatType = thisPlayerEl.querySelectorAll('[src="' + thisTypeUrl + '"]')[0];
-      findThatType = findThatType.getAttribute('type');
+    //   var createQualityNode = document.createElement('div');
+    //   createQualityNode.setAttribute('id', 'slideme-quality');
+    //   var thisTypeUrl = thisPlayer.src();
+    //   var findThatType = slideMe.thisPlayer.querySelectorAll('[src="' + thisTypeUrl + '"]')[0];
+    //   findThatType = findThatType.getAttribute('type');
 
-      var videoHigh;
-      var videoLow;
+    //   var videoHigh;
+    //   var videoLow;
 
-      for (var sourceType in slideMe.data.videosources) {
-        if (sourceType === findThatType) {
-          videoHigh = slideMe.data.videosources[sourceType];
-        }
-      }
-      for (var sourceTypeMobile in slideMe.data.videosourcesmobile) {
-        if (sourceTypeMobile === findThatType) {
-          videoLow = slideMe.data.videosourcesmobile[sourceTypeMobile];
-        }
-      }
+    //   for (var sourceType in slideMe.data.videosources) {
+    //     if (sourceType === findThatType) {
+    //       videoHigh = slideMe.data.videosources[sourceType];
+    //     }
+    //   }
+    //   for (var sourceTypeMobile in slideMe.data.videosourcesmobile) {
+    //     if (sourceTypeMobile === findThatType) {
+    //       videoLow = slideMe.data.videosourcesmobile[sourceTypeMobile];
+    //     }
+    //   }
 
-      createQualityNode.innerHTML = '<div id="slideme-change-quality">Auto</div><div id="slideme-change-quality-list"><p data-quality="' + videoHigh + '">High</p><p data-quality="' + videoLow + '">Low</p></div>';
-      document.getElementsByClassName('vjs-control-bar')[0].appendChild(createQualityNode);
+    //   createQualityNode.innerHTML = '<div id="slideme-change-quality">Auto</div><div id="slideme-change-quality-list"><p data-quality="' + videoHigh + '">High</p><p data-quality="' + videoLow + '">Low</p></div>';
+    //   document.getElementsByClassName('vjs-control-bar')[0].appendChild(createQualityNode);
 
-      var showHide = false;
-      var showHideQualityNode = document.getElementById('slideme-change-quality-list');
+    //   var showHide = false;
+    //   var showHideQualityNode = document.getElementById('slideme-change-quality-list');
 
-      var getNewSource = function() {
+    //   var getNewSource = function() {
 
-        var thisTime = thisPlayer.currentTime();
-        var src = this.getAttribute('data-quality');
-        document.getElementById('slideme-change-quality').innerHTML = this.innerHTML;
-        thisPlayer.src(src);
-        thisPlayer.currentTime(thisTime);
-        thisPlayer.play();
+    //     var thisTime = thisPlayer.currentTime();
+    //     var src = this.getAttribute('data-quality');
+    //     document.getElementById('slideme-change-quality').innerHTML = this.innerHTML;
+    //     thisPlayer.src(src);
+    //     thisPlayer.currentTime(thisTime);
+    //     thisPlayer.play();
 
-        showHide = false;
-        showHideQualityNode.style.display = 'none';
+    //     showHide = false;
+    //     showHideQualityNode.style.display = 'none';
 
-      };
+    //   };
 
-      document.querySelectorAll('[data-quality]')[0].addEventListener('click', getNewSource);
+    //   document.querySelectorAll('[data-quality]')[0].addEventListener('click', getNewSource);
 
-      document.querySelectorAll('[data-quality]')[1].addEventListener('click', getNewSource);
+    //   document.querySelectorAll('[data-quality]')[1].addEventListener('click', getNewSource);
 
-      document.getElementById('slideme-change-quality').addEventListener('click', function() {
+    //   document.getElementById('slideme-change-quality').addEventListener('click', function() {
 
-        if (showHide === false) {
-          showHide = true;
-          showHideQualityNode.style.display = 'block';
-        } else {
-          showHide = false;
-          showHideQualityNode.style.display = 'none';
-        }
+    //     if (showHide === false) {
+    //       showHide = true;
+    //       showHideQualityNode.style.display = 'block';
+    //     } else {
+    //       showHide = false;
+    //       showHideQualityNode.style.display = 'none';
+    //     }
 
-      });
+    //   });
 
-      thisPlayerEl.addEventListener('click', function() {
+    //   slideMe.thisPlayer.addEventListener('click', function() {
 
-        showHide = false;
-        showHideQualityNode.style.display = 'none';
+    //     showHide = false;
+    //     showHideQualityNode.style.display = 'none';
 
-      });
+    //   });
 
-    }
+    // }
 
 
   });
