@@ -48,4 +48,4 @@ slideMe.reload = function (jsonUrl) {
     addPreloader();
     loadJson(jsonUrl);
 
-  };
+};

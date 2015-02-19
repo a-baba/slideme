@@ -1,6 +1,6 @@
 slideMe.setSize = function() {
 
-    var sW = slideMeContainer.offsetWidth;
+    var sW = slideMeContainer.parentNode.offsetWidth;
     var sH;
 
     var vW = sW;
@@ -31,6 +31,8 @@ slideMe.setSize = function() {
 
       slideMe.presentationNode.style.width = sW + 'px';
       slideMe.presentationNode.style.height = sH + 'px';
+
+      slideMeContainer.style.height = vH + 75 + 'px';
 
     }
 

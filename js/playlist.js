@@ -84,6 +84,6 @@ slideMe.playList = function () {
 
 slideMe.destroyPlaylist = function() {
 
-    document.getElementById('slideme-playlist').remove();
+  document.getElementById('slideme-playlist').remove();
 
-  };
+};
