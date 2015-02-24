@@ -51,8 +51,6 @@ slideMe.fireVideJs = function () {
       
     });
 
-
-
   }
 
   thisPlayer.ready(function() {
@@ -66,10 +64,14 @@ slideMe.fireVideJs = function () {
     console.log('player created');
 
     if (slideMe.data.videoslidestype === 'html') {
-
-      preloaderWrapper.remove();
+      slideMe.preloaderWrapper.remove();
       slideMeContainer.style.overflow = 'visible';
+    }
 
+    if (slideMe.data.videoslides === undefined) {
+      slideMe.preloaderWrapper.remove();
+    } else {
+      document.getElementsByTagName('video')[0].addEventListener('timeupdate', slideMe.throttle(slideMe.setNewSlide, 500));
     }
 
     if (slideMe.data.autoplay !== undefined && slideMe.data.autoplay !== 'false') {

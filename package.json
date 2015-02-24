@@ -12,12 +12,6 @@
     "gulp": "^3.8.10",
     "gulp-cssmin": "^0.1.6"
   },
-  "devDependencies": {
-    "fs": "0.0.2",
-    "gulp-awspublish": "^1.0.1",
-    "gulp-gzip": "^1.0.0",
-    "gulp-s3": "^0.3.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/xoxoxo/slideme.git"

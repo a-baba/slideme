@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   slideMe.addPreloader();
 
-  if (slideMeContainer !== undefined && slideMeContainer.getAttribute('data-slidemejs') !== '') {
-
-    slideMe.loadJson(slideMeContainer.getAttribute('data-slidemejs'));
-
-  }
-
-  slideMe.loadAssets('../build/slidemecss.min.css', 'css');
+  slideMe.loadAssets('../build/slidemecss.min.css', 'css', function(){
   
+    if (slideMeContainer !== undefined && slideMeContainer.getAttribute('data-slidemejs') !== '') {
+      slideMe.loadJson(slideMeContainer.getAttribute('data-slidemejs'));
+    }
+
+  });
+
 });

@@ -4,8 +4,8 @@
 }
 
 [data-slidemejs] {
-  height: 435px;
-  width: 1120px;
+  height: auto;
+  width: 100%;
   margin: auto;
   overflow: hidden;
   position: relative;
@@ -22,23 +22,6 @@
   background: transparent;
 }
 
-#slideme-info {
-  background: #fff;
-  width: 1120px;
-  min-height: 50px;
-  position: relative;
-  margin: 50px auto 0 auto;
-  padding: 25px 25px 50px 25px;
-}
-#slideme-info h2 {
-  color: #000;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 30px;
-  font-size: 1.5rem;
-  line-height: 1.875rem;
-  margin: 10px 0 30px 0;
-}
 
 #slideme-abstract {
   font-size: 16px;
@@ -152,6 +135,8 @@
   bottom: 0;
   left: 0;
   right: 0;
+  width: 980px;
+  height: 500px;
   color: #000;
   font-size: 40px;
   line-height: 40px;
@@ -343,10 +328,6 @@
 
 @media screen and (max-width: 1024px) {
   [data-slidemejs], #slideme-list-wrapper {
-    width: 1000px;
-  }
-
-  #slideme-info {
     width: 1000px;
   }
 }

@@ -1,9 +1,8 @@
-slideMe.setNewSlide = function(firstImage) {
+slideMe.setNewSlide = function() {
 
   var currentArrayNr = '00';
 
   var getCurrentTime = Math.round(thisPlayer.currentTime());
-  
   var arrayNr;
 
   for (var i = 0; i < slideMe.timeList.length; i++) {   
@@ -13,6 +12,8 @@ slideMe.setNewSlide = function(firstImage) {
     }
 
   }
+
+
 
   if (currentArrayNr !== arrayNr) {
 
@@ -32,7 +33,7 @@ slideMe.setNewSlide = function(firstImage) {
 
       }
 
-      firstImage.setAttribute('src', getSlideFromDom.getAttribute('src'));
+      slideMe.firstImage.setAttribute('src', getSlideFromDom.getAttribute('src'));
 
     } else {
 

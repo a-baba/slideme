@@ -198,19 +198,16 @@ slideMe.reload = function (jsonUrl) {
 
 };
 var insertSpiner = document.createElement('style');
-insertSpiner.innerHTML = '[data-slidemejs] {font-family: Helvetica, Arial, sans-serif;}#slideme-preloader{position:absolute;top:0;bottom:0;left:0;right:0;padding:15% 0 0;background:#fff;z-index:100;color:#000;text-align:center}#slideme-preloader:after{content:"Loading, please wait...";font-size:12px;font-weight:100;display:block}@keyframes slideMeSpinner{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@-webkit-keyframes slideMeSpinner{from{-webkit-transform:rotate(0deg)}to{-webkit-transform:rotate(360deg)}}.icon-spinner{-webkit-animation:slideMeSpinner .75s linear infinite;animation:slideMeSpinner 2s linear infinite;font-size:20px;line-height:50px;width:50px;height:50px;cursor:default;text-align:center;color:#000}';
+insertSpiner.innerHTML = '[data-slidemejs] {font-family: Helvetica, Arial, sans-serif;position:relative;height:500px}#slideme-preloader{position:absolute;top:0;bottom:0;left:0;right:0;padding:15% 0 0;background:#fff;z-index:100;color:#000;text-align:center}#slideme-preloader:after{content:"Loading, please wait...";font-size:12px;font-weight:100;display:block}@keyframes slideMeSpinner{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}@-webkit-keyframes slideMeSpinner{from{-webkit-transform:rotate(0deg)}to{-webkit-transform:rotate(360deg)}}.icon-spinner{-webkit-animation:slideMeSpinner .75s linear infinite;animation:slideMeSpinner 2s linear infinite;font-size:20px;line-height:50px;width:50px;height:50px;cursor:default;text-align:center;color:#000}';
 getHead.appendChild(insertSpiner);
 
 slideMe.addPreloader = function () {
 
   var preloaderDom = '<i class="icon-spinner">.</i>';
-  preloaderWrapper = document.createElement('div');
-  preloaderWrapper.setAttribute('id', 'slideme-preloader');
-  preloaderWrapper.innerHTML = preloaderDom;
-  slideMeContainer.appendChild(preloaderWrapper);
-
-
-  preloaderWrapper.remove();
+  slideMe.preloaderWrapper = document.createElement('div');
+  slideMe.preloaderWrapper.setAttribute('id', 'slideme-preloader');
+  slideMe.preloaderWrapper.innerHTML = preloaderDom;
+  slideMeContainer.appendChild(slideMe.preloaderWrapper);
 
 };
 
@@ -357,8 +354,6 @@ slideMe.fireVideJs = function () {
       
     });
 
-
-
   }
 
   thisPlayer.ready(function() {
@@ -372,10 +367,14 @@ slideMe.fireVideJs = function () {
     console.log('player created');
 
     if (slideMe.data.videoslidestype === 'html') {
-
-      preloaderWrapper.remove();
+      slideMe.preloaderWrapper.remove();
       slideMeContainer.style.overflow = 'visible';
+    }
 
+    if (slideMe.data.videoslides === undefined) {
+      slideMe.preloaderWrapper.remove();
+    } else {
+      document.getElementsByTagName('video')[0].addEventListener('timeupdate', slideMe.throttle(slideMe.setNewSlide, 500));
     }
 
     if (slideMe.data.autoplay !== undefined && slideMe.data.autoplay !== 'false') {
@@ -505,12 +504,11 @@ slideMe.getSlides = function () {
   createImgContainerWrapper.appendChild(slideMe.createImgContainer);
 
 };
-slideMe.setNewSlide = function(firstImage) {
+slideMe.setNewSlide = function() {
 
   var currentArrayNr = '00';
 
   var getCurrentTime = Math.round(thisPlayer.currentTime());
-  
   var arrayNr;
 
   for (var i = 0; i < slideMe.timeList.length; i++) {   
@@ -520,6 +518,8 @@ slideMe.setNewSlide = function(firstImage) {
     }
 
   }
+
+
 
   if (currentArrayNr !== arrayNr) {
 
@@ -539,7 +539,7 @@ slideMe.setNewSlide = function(firstImage) {
 
       }
 
-      firstImage.setAttribute('src', getSlideFromDom.getAttribute('src'));
+      slideMe.firstImage.setAttribute('src', getSlideFromDom.getAttribute('src'));
 
     } else {
 
@@ -674,15 +674,22 @@ slideMe.sliderClickEvent = function (firstImage, ready) {
 };
 slideMe.setContent = function (isImg) {
 
-  var firstImage;
   var videoSlides = slideMe.data.videoslides;
 
   for (var i = 0; i < videoSlides.length; i++) {
 
     var thisContent = videoSlides[i].slidecontent;
+
+    if (videoSlides[i].timemin === '') {
+      videoSlides[i].timesec = '0';
+    }
+    if (videoSlides[i].timesec === '') {
+      videoSlides[i].timesec = '0';
+    }
+
     var thisContentTime = 60 * videoSlides[i].timemin + parseInt(videoSlides[i].timesec);
     var createSlideNode;
-
+    
     if (isImg) {
 
       createSlideNode = document.createElement('img');
@@ -714,11 +721,11 @@ slideMe.setContent = function (isImg) {
   if (isImg) {
 
     var getFirstImg = videoSlides[0].slidecontent;
-    firstImage = document.createElement('img');
-    firstImage.setAttribute('src', getFirstImg);
-    slideMe.presentationNode.appendChild(firstImage);
+    slideMe.firstImage = document.createElement('img');
+    slideMe.firstImage.setAttribute('src', getFirstImg);
+    slideMe.presentationNode.appendChild(slideMe.firstImage);
 
-    preloaderWrapper.remove();
+    slideMe.preloaderWrapper.remove();
     slideMeContainer.style.overflow = 'visible';
 
   }
@@ -769,11 +776,10 @@ slideMe.setContent = function (isImg) {
   }
 
   if (!slideMe.data.videosourcesmobile && !slideMe.data.videosources) {
-    slideMe.sliderClickEvent(firstImage, false);
+    slideMe.sliderClickEvent(slideMe.firstImage, false);
   } else {
     thisPlayer.ready(function() {
-      slideMe.sliderClickEvent(firstImage, true);
-      slideMe.setNewSlide(firstImage);
+      slideMe.sliderClickEvent(slideMe.firstImage, true);
     });
   }
   
@@ -785,12 +791,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   slideMe.addPreloader();
 
-  if (slideMeContainer !== undefined && slideMeContainer.getAttribute('data-slidemejs') !== '') {
-
-    slideMe.loadJson(slideMeContainer.getAttribute('data-slidemejs'));
-
-  }
-
-  slideMe.loadAssets('../build/slidemecss.min.css', 'css');
+  slideMe.loadAssets('../build/slidemecss.min.css', 'css', function(){
   
+    if (slideMeContainer !== undefined && slideMeContainer.getAttribute('data-slidemejs') !== '') {
+      slideMe.loadJson(slideMeContainer.getAttribute('data-slidemejs'));
+    }
+
+  });
+
 });
